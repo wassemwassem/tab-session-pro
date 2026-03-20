@@ -64,7 +64,7 @@ If you use **NetSuite, Salesforce, SAP, or any session-based web app**, you know
 ## 📦 Installation
 
 ### From Chrome Web Store *(recommended)*
-👉 [Install Tab Session Pro](https://chrome.google.com/webstore/detail/tab-session-pro)
+👉 [Install Tab Session Pro](https://chromewebstore.google.com/detail/ohgiphdbdbabhoembkclgbnbihlfeegd?utm_source=item-share-cb)
 
 ### Manual / Developer Install
 1. Clone or download this repository
