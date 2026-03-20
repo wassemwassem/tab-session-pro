@@ -6,7 +6,7 @@
 
 ### Save your Chrome tab groups. Restore them in one click.
 
-[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Available-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://chrome.google.com/webstore/detail/tab-session-pro)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Available-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/ohgiphdbdbabhoembkclgbnbihlfeegd?utm_source=item-share-cb)
 [![Version](https://img.shields.io/badge/version-1.0.0-6c8aff?style=flat-square)](#)
 [![License](https://img.shields.io/badge/license-MIT-34d399?style=flat-square)](LICENSE)
 [![Buy Me a Coffee](https://img.shields.io/badge/Support-Buy%20me%20a%20coffee-FFDD00?style=flat-square&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/wassemtakashi)
