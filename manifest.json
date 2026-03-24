@@ -2,9 +2,9 @@
   "manifest_version": 3,
   "name": "Tab Session Pro — Save & Restore Tab Groups",
   "short_name": "Tab Session Pro",
-  "version": "1.0.0",
-  "description": "Save your Chrome tab groups with colors and names. Restore them in one click — perfect for NetSuite, Salesforce, or any multi-tab workflow.",
-  "homepage_url": "https://github.com/wassem/tab-session-pro",
+  "version": "2.1.0",
+  "description": "Save Chrome tab groups with colors & names. Restore in one click — perfect for NetSuite, Salesforce, or any multi-tab workflow.",
+  "homepage_url": "https://github.com/wassemwassem/tab-session-pro",
   "permissions": [
     "tabs",
     "tabGroups",
@@ -30,6 +30,10 @@
     "save-session": {
       "suggested_key": { "default": "Alt+S" },
       "description": "Quick save current tab session"
+    },
+    "update-session": {
+      "suggested_key": { "default": "Alt+U" },
+      "description": "Update (re-save) the last restored session"
     }
   }
 }

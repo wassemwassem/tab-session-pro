@@ -1,269 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <title>Tab Session Pro</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+<meta charset="UTF-8"/>
+<title>Tab Session Pro</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root {
+  --bg:#0f1117;--surface:#181c27;--surface2:#1f2437;--surface3:#252b40;
+  --border:#2a3148;--border2:#364060;
+  --accent:#6c8aff;--accent2:#a78bfa;
+  --green:#34d399;--red:#f87171;--yellow:#fbbf24;--orange:#fb923c;
+  --text:#e8eaf6;--muted:#6b7a9e;--muted2:#8892b0;
+  --gc-grey:#5f6368;--gc-blue:#4285f4;--gc-red:#ea4335;--gc-yellow:#fbbc04;
+  --gc-green:#34a853;--gc-pink:#e91e8c;--gc-purple:#9c27b0;--gc-cyan:#00bcd4;--gc-orange:#ff6d00;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{width:460px;min-height:520px;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;line-height:1.5;}
 
-    :root {
-      --bg:       #0f1117;
-      --surface:  #181c27;
-      --surface2: #1f2437;
-      --border:   #2a3148;
-      --border2:  #364060;
-      --accent:   #6c8aff;
-      --accent2:  #a78bfa;
-      --green:    #34d399;
-      --red:      #f87171;
-      --yellow:   #fbbf24;
-      --text:     #e8eaf6;
-      --muted:    #6b7a9e;
-      --muted2:   #8892b0;
+/* ── Header ── */
+.header{background:linear-gradient(135deg,#181c27,#1a1f35);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.header-text{flex:1;}
+.header-name{font-weight:700;font-size:14px;letter-spacing:-.02em;}
+.header-sub{font-size:10px;color:var(--muted);margin-top:1px;}
+.header-right{display:flex;align-items:center;gap:6px;}
+.ver-badge{font-size:10px;font-family:'JetBrains Mono',monospace;background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:2px 6px;color:var(--muted2);}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--green);title:"Synced";}
+.sync-dot.syncing{background:var(--yellow);animation:pulse 1s infinite;}
+.sync-dot.error{background:var(--red);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
 
-      --gc-grey:   #5f6368;
-      --gc-blue:   #4285f4;
-      --gc-red:    #ea4335;
-      --gc-yellow: #fbbc04;
-      --gc-green:  #34a853;
-      --gc-pink:   #e91e8c;
-      --gc-purple: #9c27b0;
-      --gc-cyan:   #00bcd4;
-      --gc-orange: #ff6d00;
-    }
+/* ── Nav ── */
+.nav{display:flex;background:var(--surface);border-bottom:1px solid var(--border);}
+.nav-btn{flex:1;padding:8px 0;background:none;border:none;color:var(--muted);font-family:'Inter',sans-serif;font-size:11.5px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;position:relative;}
+.nav-btn:hover:not(.active){color:var(--muted2);}
+.nav-btn.active{color:var(--text);border-bottom-color:var(--accent);}
+.nav-badge{background:var(--accent);color:#fff;border-radius:10px;padding:1px 5px;font-size:9px;margin-left:3px;display:none;}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── Panels ── */
+.panel{display:none;}
+.panel.active{display:block;}
 
-    body {
-      width: 400px;
-      min-height: 480px;
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      line-height: 1.5;
-    }
+/* ── Save Panel ── */
+.save-panel{padding:12px 14px;display:flex;flex-direction:column;gap:10px;}
+.onboard{background:linear-gradient(135deg,#1a1f35,#1f2437);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;display:flex;gap:8px;align-items:flex-start;}
+.onboard-icon{font-size:18px;flex-shrink:0;}
+.onboard-text{font-size:11px;color:var(--muted2);line-height:1.5;}
+.onboard-text strong{color:var(--text);}
+.onboard-close{margin-left:auto;cursor:pointer;color:var(--muted);font-size:13px;flex-shrink:0;padding:0 2px;}
 
-    /* ── Header ── */
-    .header {
-      background: linear-gradient(135deg, #181c27 0%, #1a1f35 100%);
-      border-bottom: 1px solid var(--border);
-      padding: 13px 16px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .logo {
-      width: 34px; height: 34px; border-radius: 9px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 17px; flex-shrink: 0;
-    }
-    .header-text { flex: 1; }
-    .header-name { font-weight: 700; font-size: 14px; letter-spacing: -0.02em; }
-    .header-sub  { font-size: 10.5px; color: var(--muted); margin-top: 1px; }
-    .header-ver  {
-      font-size: 10px; font-family: 'JetBrains Mono', monospace;
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 5px; padding: 2px 7px; color: var(--muted2);
-    }
+.field-label{font-size:10px;font-weight:600;color:var(--muted2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;justify-content:space-between;}
+.text-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;padding:7px 10px;outline:none;transition:border-color .15s;}
+.text-input:focus{border-color:var(--accent);}
+.text-input::placeholder{color:var(--muted);}
 
-    /* ── Tabs ── */
-    .nav {
-      display: flex;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-btn {
-      flex: 1; padding: 9px 0; background: none; border: none;
-      color: var(--muted); font-family: 'Inter', sans-serif;
-      font-size: 12px; font-weight: 500; cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: color 0.15s, border-color 0.15s;
-    }
-    .nav-btn:hover:not(.active) { color: var(--muted2); }
-    .nav-btn.active { color: var(--text); border-bottom-color: var(--accent); }
+/* AI rename row */
+.ai-row{display:flex;gap:6px;align-items:stretch;}
+.ai-row .text-input{flex:1;}
+.ai-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:6px;color:#fff;font-size:11px;font-weight:600;padding:0 10px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px;transition:opacity .15s;}
+.ai-btn:hover{opacity:.85;}
+.ai-btn.loading{opacity:.6;pointer-events:none;}
+.ai-suggestions{display:none;flex-direction:column;gap:4px;margin-top:4px;}
+.ai-suggestions.show{display:flex;}
+.ai-suggestion{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:5px 9px;font-size:11.5px;cursor:pointer;transition:border-color .15s;display:flex;align-items:center;justify-content:space-between;}
+.ai-suggestion:hover{border-color:var(--accent);}
+.ai-suggestion span{color:var(--muted);font-size:10px;}
 
-    /* ── Panels ── */
-    .panel { display: none; }
-    .panel.active { display: block; }
+/* Working hours */
+.hours-row{display:flex;gap:8px;align-items:center;}
+.hours-input{width:70px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;padding:6px 8px;outline:none;text-align:center;transition:border-color .15s;}
+.hours-input:focus{border-color:var(--accent);}
+.hours-preview{font-size:11px;color:var(--muted2);background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:4px 8px;}
+.hours-preview strong{color:var(--green);}
 
-    /* ── Save panel ── */
-    .save-panel { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+/* Folder selector */
+.folder-select-row{display:flex;gap:6px;}
+.folder-select{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Inter',sans-serif;font-size:12px;padding:6px 9px;outline:none;cursor:pointer;}
+.folder-select:focus{border-color:var(--accent);}
+.new-folder-btn{background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--muted2);font-size:11px;padding:0 10px;cursor:pointer;transition:border-color .15s,color .15s;white-space:nowrap;}
+.new-folder-btn:hover{border-color:var(--accent);color:var(--accent);}
 
-    .preview-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .preview-title {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 8px 12px;
-      background: var(--surface2);
-      border-bottom: 1px solid var(--border);
-      font-size: 11px; color: var(--muted);
-    }
-    .preview-title strong { color: var(--text); }
-    .preview-scroll { max-height: 200px; overflow-y: auto; }
+/* Preview box */
+.preview-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.preview-title{display:flex;align-items:center;justify-content:space-between;padding:7px 11px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);}
+.preview-title strong{color:var(--text);}
+.preview-scroll{max-height:180px;overflow-y:auto;}
+.group-row{display:flex;align-items:center;gap:7px;padding:6px 11px;border-bottom:1px solid var(--border);}
+.group-row:last-child{border-bottom:none;}
+.g-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.g-name{font-weight:600;font-size:12px;flex:1;}
+.g-tabs{font-size:10px;color:var(--muted);}
+.g-favicons{display:flex;gap:2px;margin-left:4px;}
+.g-favicon{width:13px;height:13px;border-radius:2px;}
+.tab-sub{padding:2px 11px 2px 30px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:5px;}
+.tab-sub:last-child{border-bottom:none;}
+.tab-sub-favicon{width:12px;height:12px;flex-shrink:0;}
+.tab-sub-title{font-size:11px;color:var(--muted2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:300px;}
+.ungrouped-row{padding:4px 11px;border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);font-style:italic;}
+.ungrouped-row:last-child{border-bottom:none;}
 
-    .group-row {
-      display: flex; align-items: center; gap: 8px;
-      padding: 7px 12px;
-      border-bottom: 1px solid var(--border);
-    }
-    .group-row:last-child { border-bottom: none; }
-    .g-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
-    .g-name { font-weight: 600; font-size: 12px; flex: 1; }
-    .g-tabs { font-size: 10.5px; color: var(--muted); }
-    .g-urls { font-size: 10px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+/* Checks */
+.checks{display:flex;gap:6px;flex-wrap:wrap;}
+.check-chip{display:flex;align-items:center;gap:5px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:11px;cursor:pointer;user-select:none;transition:border-color .15s;}
+.check-chip input{accent-color:var(--accent);width:11px;height:11px;cursor:pointer;}
+.check-chip:hover{border-color:var(--accent);}
 
-    .tab-sub {
-      padding: 3px 12px 3px 32px;
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; gap: 6px;
-    }
-    .tab-sub:last-child { border-bottom: none; }
-    .tab-sub-favicon { width: 12px; height: 12px; flex-shrink: 0; }
-    .tab-sub-title { font-size: 11px; color: var(--muted2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 290px; }
+/* Buttons */
+.btn{border:none;border-radius:7px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;font-size:12px;padding:8px 14px;display:inline-flex;align-items:center;justify-content:center;gap:5px;transition:opacity .15s,transform .1s,box-shadow .15s;}
+.btn:hover{opacity:.88;}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;width:100%;box-shadow:0 2px 12px rgba(108,138,255,.3);}
+.btn-primary:hover{box-shadow:0 4px 20px rgba(108,138,255,.45);}
+.btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border);font-size:11px;padding:4px 9px;}
+.btn-ghost:hover{border-color:var(--accent);}
+.btn-restore{background:var(--surface2);border:1px solid var(--accent);color:var(--accent);font-size:11px;padding:4px 10px;}
+.btn-restore:hover{background:var(--accent);color:#fff;}
+.btn-update{background:var(--surface2);border:1px solid var(--green);color:var(--green);font-size:11px;padding:4px 10px;}
+.btn-update:hover{background:var(--green);color:#0f1117;}
+.btn-del{background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:11px;padding:4px 8px;}
+.btn-del:hover{border-color:var(--red);color:var(--red);}
+.btn-icon{background:var(--surface2);border:1px solid var(--border);color:var(--muted2);font-size:11px;padding:4px 7px;border-radius:5px;cursor:pointer;transition:border-color .15s,color .15s;}
+.btn-icon:hover{border-color:var(--accent);color:var(--accent);}
 
-    .ungrouped-row {
-      padding: 5px 12px;
-      border-bottom: 1px solid var(--border);
-      font-size: 11px; color: var(--muted);
-      font-style: italic;
-    }
-    .ungrouped-row:last-child { border-bottom: none; }
+/* ── Sessions Panel ── */
+.sessions-panel{padding:10px 14px;display:flex;flex-direction:column;gap:8px;}
+.sessions-toolbar{display:flex;gap:6px;align-items:center;}
+.view-toggle{display:flex;background:var(--surface2);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.view-btn{background:none;border:none;color:var(--muted);font-size:11px;padding:4px 9px;cursor:pointer;transition:background .15s,color .15s;}
+.view-btn.active{background:var(--accent);color:#fff;}
+.sessions-scroll{max-height:390px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;}
 
-    /* ── Form ── */
-    .field-label { font-size: 11px; font-weight: 600; color: var(--muted2); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.07em; }
-    .text-input {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      padding: 8px 11px;
-      outline: none;
-      transition: border-color 0.15s;
-    }
-    .text-input:focus { border-color: var(--accent); }
-    .text-input::placeholder { color: var(--muted); }
+/* Folder */
+.folder-section{border:1px solid var(--border);border-radius:9px;overflow:hidden;}
+.folder-header{display:flex;align-items:center;gap:8px;padding:8px 11px;background:var(--surface2);cursor:pointer;user-select:none;transition:background .15s;}
+.folder-header:hover{background:var(--surface3);}
+.folder-chevron{font-size:10px;color:var(--muted);transition:transform .2s;}
+.folder-chevron.open{transform:rotate(90deg);}
+.folder-icon{font-size:15px;}
+.folder-name{font-weight:600;font-size:12px;flex:1;}
+.folder-meta{font-size:10px;color:var(--muted);}
+.folder-actions{display:flex;gap:4px;opacity:0;transition:opacity .15s;}
+.folder-header:hover .folder-actions{opacity:1;}
+.folder-body{display:none;flex-direction:column;gap:0;}
+.folder-body.open{display:flex;}
+.folder-drag-handle{cursor:grab;color:var(--muted);font-size:11px;padding:0 4px;}
+.folder-drag-handle:active{cursor:grabbing;}
 
-    .checks { display: flex; gap: 8px; flex-wrap: wrap; }
-    .check-chip {
-      display: flex; align-items: center; gap: 6px;
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 20px; padding: 5px 11px;
-      font-size: 11.5px; cursor: pointer; user-select: none;
-      transition: border-color 0.15s;
-    }
-    .check-chip input { accent-color: var(--accent); width: 12px; height: 12px; cursor: pointer; }
-    .check-chip:hover { border-color: var(--accent); }
+/* Session card */
+.s-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color .15s;}
+.s-card:hover{border-color:var(--border2);}
+.s-card.in-folder{border-radius:0;border-left:none;border-right:none;border-top:none;}
+.s-card.in-folder:last-child{border-bottom:none;}
+.s-top{display:flex;align-items:center;gap:8px;padding:8px 11px 6px;}
+.s-icon{font-size:16px;}
+.s-info{flex:1;min-width:0;}
+.s-name{font-weight:600;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.s-meta{font-size:10px;color:var(--muted);margin-top:1px;display:flex;align-items:center;gap:6px;}
+.s-version{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 5px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent);}
+.s-hours{color:var(--green);font-weight:600;}
+.s-actions{display:flex;gap:4px;flex-shrink:0;}
+.s-pills{display:flex;flex-wrap:wrap;gap:4px;padding:0 11px 8px;}
+.s-pill{display:flex;align-items:center;gap:4px;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:600;color:rgba(255,255,255,.9);}
+.s-pill-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);}
+.s-pill-favicons{display:flex;gap:1px;margin-left:2px;}
+.s-pill-favicon{width:11px;height:11px;border-radius:2px;}
 
-    .btn {
-      border: none; border-radius: 8px; cursor: pointer;
-      font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
-      padding: 9px 16px;
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
-    }
-    .btn:hover   { opacity: 0.88; }
-    .btn:active  { transform: scale(0.97); }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff; width: 100%;
-      box-shadow: 0 2px 12px rgba(108,138,255,0.3);
-    }
-    .btn-primary:hover { box-shadow: 0 4px 20px rgba(108,138,255,0.45); }
-    .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); font-size: 11px; padding: 5px 10px; }
-    .btn-ghost:hover { border-color: var(--accent); }
-    .btn-restore {
-      background: var(--surface2); border: 1px solid var(--accent);
-      color: var(--accent); font-size: 11.5px; padding: 5px 12px;
-    }
-    .btn-restore:hover { background: var(--accent); color: #fff; }
-    .btn-del { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); font-size: 11px; padding: 5px 9px; }
-    .btn-del:hover { border-color: var(--red); color: var(--red); }
+/* Hours badge */
+.hours-badge{display:inline-flex;align-items:center;gap:3px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);border-radius:4px;padding:1px 6px;font-size:10px;color:var(--green);font-family:'JetBrains Mono',monospace;}
 
-    /* ── Sessions panel ── */
-    .sessions-panel { padding: 12px 16px; }
-    .sessions-scroll { max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+/* ── About Panel ── */
+.about-panel{padding:16px 14px;display:flex;flex-direction:column;gap:12px;}
+.about-center{text-align:center;}
+.about-icon{font-size:36px;margin-bottom:6px;}
+.about-name{font-size:15px;font-weight:700;}
+.about-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.about-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.about-card-header{padding:7px 12px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;}
+.about-card-body{padding:10px 12px;}
+.hotkey-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0;font-size:11.5px;color:var(--muted2);border-bottom:1px solid var(--border);}
+.hotkey-row:last-child{border-bottom:none;}
+kbd{background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:2px 6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text);}
+.perm-row{display:flex;gap:8px;padding:4px 0;font-size:11.5px;color:var(--muted2);border-bottom:1px solid var(--border);}
+.perm-row:last-child{border-bottom:none;}
+.perm-row strong{color:var(--text);}
+.bmac-btn{display:inline-flex;align-items:center;gap:7px;background:#FFDD00;color:#000;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;padding:8px 18px;border-radius:7px;text-decoration:none;transition:opacity .15s;}
+.bmac-btn:hover{opacity:.85;}
+.sync-section{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.sync-status-row{display:flex;align-items:center;gap:8px;padding:10px 12px;font-size:12px;}
+.sync-indicator{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;}
+.sync-indicator.off{background:var(--muted);}
 
-    .s-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      transition: border-color 0.15s;
-    }
-    .s-card:hover { border-color: var(--border2); }
-    .s-top {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 12px 8px;
-    }
-    .s-icon { font-size: 18px; }
-    .s-info { flex: 1; min-width: 0; }
-    .s-name { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .s-meta { font-size: 10.5px; color: var(--muted); margin-top: 1px; }
-    .s-actions { display: flex; gap: 5px; }
+/* ── Modal overlay ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);align-items:center;justify-content:center;z-index:100;display:none;}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:20px;width:320px;display:flex;flex-direction:column;gap:12px;}
+.modal-title{font-weight:700;font-size:14px;}
+.modal-sub{font-size:11.5px;color:var(--muted2);line-height:1.5;}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;}
 
-    .s-pills { display: flex; flex-wrap: wrap; gap: 5px; padding: 0 12px 10px; }
-    .s-pill {
-      display: flex; align-items: center; gap: 5px;
-      border-radius: 20px; padding: 3px 9px;
-      font-size: 10.5px; font-weight: 600; color: rgba(255,255,255,0.9);
-    }
-    .s-pill-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.55); }
+/* ── New folder modal ── */
+.folder-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;padding:8px 10px;outline:none;}
+.folder-input:focus{border-color:var(--accent);}
 
-    /* ── Empty / loading ── */
-    .empty {
-      text-align: center; padding: 32px 20px;
-      color: var(--muted); font-size: 12px;
-    }
-    .empty-icon { font-size: 32px; margin-bottom: 10px; }
+/* Empty / loading */
+.empty{text-align:center;padding:28px 20px;color:var(--muted);font-size:12px;}
+.empty-icon{font-size:28px;margin-bottom:8px;}
 
-    /* ── Toast ── */
-    #toast {
-      position: fixed; bottom: 12px; left: 50%;
-      transform: translateX(-50%) translateY(6px);
-      background: var(--green); color: #0d1117;
-      font-weight: 700; font-size: 12px;
-      padding: 7px 18px; border-radius: 20px;
-      opacity: 0; transition: opacity 0.2s, transform 0.2s;
-      pointer-events: none; white-space: nowrap; z-index: 999;
-    }
-    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* Toast */
+#toast{position:fixed;bottom:10px;left:50%;transform:translateX(-50%) translateY(6px);background:var(--green);color:#0d1117;font-weight:700;font-size:11px;padding:6px 16px;border-radius:20px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;white-space:nowrap;z-index:999;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.warn{background:var(--yellow);}
+#toast.err{background:var(--red);color:#fff;}
 
-    /* ── Onboarding banner ── */
-    .onboard {
-      background: linear-gradient(135deg, #1a1f35, #1f2437);
-      border: 1px solid var(--border2);
-      border-radius: 9px;
-      padding: 11px 13px;
-      display: flex; gap: 10px; align-items: flex-start;
-    }
-    .onboard-icon { font-size: 20px; flex-shrink: 0; }
-    .onboard-text { font-size: 11.5px; color: var(--muted2); line-height: 1.55; }
-    .onboard-text strong { color: var(--text); }
-    .onboard-close { margin-left: auto; cursor: pointer; color: var(--muted); font-size: 14px; flex-shrink: 0; padding: 0 2px; }
-    .onboard-close:hover { color: var(--text); }
+/* Color classes */
+.c-grey{background:var(--gc-grey);}.c-blue{background:var(--gc-blue);}.c-red{background:var(--gc-red);}
+.c-yellow{background:var(--gc-yellow);}.c-green{background:var(--gc-green);}.c-pink{background:var(--gc-pink);}
+.c-purple{background:var(--gc-purple);}.c-cyan{background:var(--gc-cyan);}.c-orange{background:var(--gc-orange);}
 
-    /* ── Color util ── */
-    .c-grey   { background: var(--gc-grey);   }
-    .c-blue   { background: var(--gc-blue);   }
-    .c-red    { background: var(--gc-red);    }
-    .c-yellow { background: var(--gc-yellow); }
-    .c-green  { background: var(--gc-green);  }
-    .c-pink   { background: var(--gc-pink);   }
-    .c-purple { background: var(--gc-purple); }
-    .c-cyan   { background: var(--gc-cyan);   }
-    .c-orange { background: var(--gc-orange); }
+/* Drag-over */
+.folder-section.drag-over{border-color:var(--accent);background:rgba(108,138,255,.05);}
 
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
-  </style>
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+</style>
 </head>
 <body>
 
@@ -274,13 +234,16 @@
     <div class="header-name">Tab Session Pro</div>
     <div class="header-sub">Save groups · restore after login</div>
   </div>
-  <div class="header-ver">v1.0.0</div>
+  <div class="header-right">
+    <div class="sync-dot" id="syncDot" title="Chrome Sync active"></div>
+    <div class="ver-badge">v2.1.0</div>
+  </div>
 </div>
 
 <!-- Nav -->
 <div class="nav">
   <button class="nav-btn active" data-tab="save">💾 Save</button>
-  <button class="nav-btn" data-tab="sessions">📁 Sessions <span id="sessionsBadge" style="display:none;background:var(--accent);color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;margin-left:4px;"></span></button>
+  <button class="nav-btn" data-tab="sessions">📁 Sessions<span class="nav-badge" id="sessionsBadge"></span></button>
   <button class="nav-btn" data-tab="about">ℹ️ About</button>
 </div>
 
@@ -288,20 +251,21 @@
 <div class="panel active" id="panel-save">
   <div class="save-panel">
 
-    <!-- Onboarding tip (hidden after first use) -->
+    <!-- Onboarding -->
     <div class="onboard" id="onboard">
       <div class="onboard-icon">💡</div>
       <div class="onboard-text">
-        <strong>End of day:</strong> save this session. <strong>Next morning:</strong> log in first, then restore here. Your groups, colors and tabs will be exactly as you left them.
+        <strong>End of day:</strong> save session. <strong>Next morning:</strong> log in first → restore.
+        Use <kbd>Alt+U</kbd> to update a restored session without reopening the popup.
       </div>
       <div class="onboard-close" id="onboardClose">✕</div>
     </div>
 
-    <!-- Live preview -->
+    <!-- Current window preview -->
     <div>
-      <div class="field-label" style="display:flex;align-items:center;justify-content:space-between;">
+      <div class="field-label">
         <span>Current window</span>
-        <button class="btn btn-ghost" id="refreshBtn" style="padding:3px 8px;font-size:10px;">↺ Refresh</button>
+        <button class="btn btn-ghost" id="refreshBtn" style="padding:3px 7px;font-size:10px;">↺ Refresh</button>
       </div>
       <div class="preview-box">
         <div class="preview-title">
@@ -309,30 +273,53 @@
           <strong id="previewStat">loading…</strong>
         </div>
         <div class="preview-scroll" id="previewContent">
-          <div class="empty"><div class="empty-icon">⏳</div>Scanning tabs…</div>
+          <div class="empty"><div class="empty-icon">⏳</div>Scanning…</div>
         </div>
       </div>
     </div>
 
-    <!-- Session name -->
+    <!-- Session name + AI rename -->
     <div>
       <div class="field-label">Session name</div>
-      <input class="text-input" id="sessionName" placeholder="e.g.  Ticket #4821 — Sales Showroom fix" maxlength="80"/>
+      <div class="ai-row">
+        <input class="text-input" id="sessionName" placeholder="e.g. Ticket #4821 — Sales Showroom fix" maxlength="80"/>
+        <button class="ai-btn" id="aiRenameBtn" title="Get AI name suggestions based on your tab titles">✨ AI Name</button>
+      </div>
+      <div class="ai-suggestions" id="aiSuggestions"></div>
+    </div>
+
+    <!-- Working hours -->
+    <div>
+      <div class="field-label">
+        <span>Working hours <span style="color:var(--muted);font-weight:400;text-transform:none;">(optional)</span></span>
+      </div>
+      <div class="hours-row">
+        <input class="hours-input" id="hoursInput" type="number" min="0" max="999" step="0.5" placeholder="0"/>
+        <span style="font-size:11px;color:var(--muted2);">hrs on this ticket</span>
+        <div class="hours-preview" id="hoursPreview" style="display:none;">
+          Total: <strong id="hoursTotalDisplay">0</strong> hrs
+        </div>
+      </div>
+    </div>
+
+    <!-- Folder -->
+    <div>
+      <div class="field-label">Add to folder <span style="color:var(--muted);font-weight:400;text-transform:none;">(optional)</span></div>
+      <div class="folder-select-row">
+        <select class="folder-select" id="folderSelect">
+          <option value="">— No folder (standalone) —</option>
+        </select>
+        <button class="new-folder-btn" id="newFolderBtn">+ New folder</button>
+      </div>
     </div>
 
     <!-- Options -->
     <div>
       <div class="field-label">Options</div>
       <div class="checks">
-        <label class="check-chip">
-          <input type="checkbox" id="optGroups" checked/> Preserve group colors & names
-        </label>
-        <label class="check-chip">
-          <input type="checkbox" id="optNSOnly"/> NetSuite tabs only
-        </label>
-        <label class="check-chip">
-          <input type="checkbox" id="optCollapsed"/> Restore collapsed state
-        </label>
+        <label class="check-chip"><input type="checkbox" id="optGroups" checked/> Keep group colors</label>
+        <label class="check-chip"><input type="checkbox" id="optNSOnly"/> NetSuite only</label>
+        <label class="check-chip"><input type="checkbox" id="optCollapsed"/> Collapsed state</label>
       </div>
     </div>
 
@@ -343,64 +330,101 @@
 <!-- ═══ SESSIONS PANEL ═══ -->
 <div class="panel" id="panel-sessions">
   <div class="sessions-panel">
+    <div class="sessions-toolbar">
+      <div class="view-toggle">
+        <button class="view-btn active" id="viewFolders" title="Folders view">📁 Folders</button>
+        <button class="view-btn" id="viewAll" title="All sessions flat">≡ All</button>
+      </div>
+      <div style="flex:1;"></div>
+      <button class="btn-icon" id="newFolderBtnSessions" title="New folder">+ Folder</button>
+    </div>
     <div class="sessions-scroll" id="sessionsList">
-      <div class="empty"><div class="empty-icon">📭</div>No sessions yet.<br/>Go to Save and capture your first session.</div>
+      <div class="empty"><div class="empty-icon">📭</div>No sessions yet.</div>
     </div>
   </div>
 </div>
 
 <!-- ═══ ABOUT PANEL ═══ -->
 <div class="panel" id="panel-about">
-  <div style="padding:20px 16px; display:flex; flex-direction:column; gap:14px;">
+  <div class="about-panel">
+    <div class="about-center">
+      <div class="about-icon">🗂️</div>
+      <div class="about-name">Tab Session Pro</div>
+      <div class="about-sub">v2.1.0 — Free & Open Source by WassLabs</div>
+    </div>
+
+    <div class="about-card">
+      <div class="about-card-header">⌨️ Keyboard Shortcuts</div>
+      <div class="about-card-body">
+        <div class="hotkey-row"><span>Save current session</span><kbd>Alt+S</kbd></div>
+        <div class="hotkey-row"><span>Update last restored session</span><kbd>Alt+U</kbd></div>
+      </div>
+    </div>
+
+    <div class="sync-section">
+      <div class="about-card-header">☁️ Cloud Sync</div>
+      <div class="sync-status-row">
+        <div class="sync-indicator" id="aboutSyncIndicator"></div>
+        <div style="flex:1;">
+          <div style="font-weight:600;font-size:12px;" id="aboutSyncStatus">Synced via Chrome</div>
+          <div style="font-size:10px;color:var(--muted);">Sessions sync automatically across your Chrome browsers</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-card">
+      <div class="about-card-header">🔐 Permissions</div>
+      <div class="about-card-body">
+        <div class="perm-row">🗂️ <strong>tabGroups</strong> — read group names & colors</div>
+        <div class="perm-row">🔗 <strong>tabs</strong> — read tab URLs & titles</div>
+        <div class="perm-row">💾 <strong>storage</strong> — save & sync sessions locally + across Chrome</div>
+        <div style="margin-top:6px;font-size:10px;color:var(--muted);font-style:italic;">No data sent to any external server.</div>
+      </div>
+    </div>
+
     <div style="text-align:center;">
-      <div style="font-size:40px;margin-bottom:8px;">🗂️</div>
-      <div style="font-size:16px;font-weight:700;">Tab Session Pro</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:3px;">Version 1.0.0 — Free & Open Source</div>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:13px 14px;font-size:12px;color:var(--muted2);line-height:1.7;">
-      Save your Chrome tab groups with their <strong style="color:var(--text)">colors and names</strong>, then restore them in one click after a session expires. 
-      Perfect for NetSuite, Salesforce, CRM tools, or any workflow with many organized tabs.
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;">
-      <div style="padding:8px 13px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:600;">Keyboard shortcut</div>
-      <div style="padding:10px 13px;font-size:12px;color:var(--muted2);">
-        <kbd style="background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:2px 7px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);">Alt + S</kbd>
-        &nbsp; Quick save current session
-      </div>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;">
-      <div style="padding:8px 13px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:600;">Permissions used</div>
-      <div style="padding:10px 13px;display:flex;flex-direction:column;gap:6px;font-size:11.5px;color:var(--muted2);">
-        <div>🗂️ <strong style="color:var(--text)">tabGroups</strong> — read group names & colors</div>
-        <div>🔗 <strong style="color:var(--text)">tabs</strong> — read tab URLs & titles</div>
-        <div>💾 <strong style="color:var(--text)">storage</strong> — save sessions locally on your device</div>
-        <div style="margin-top:4px;font-size:10.5px;color:var(--muted);font-style:italic;">No data is ever sent to any server.</div>
-      </div>
-    </div>
-
-    <!-- Buy Me a Coffee -->
-    <div style="background:linear-gradient(135deg,#1a1f2e,#1f2437);border:1px solid #2a3148;border-radius:10px;padding:14px;text-align:center;">
-      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;">☕ Enjoying Tab Session Pro?</div>
-      <div style="font-size:11px;color:var(--muted2);margin-bottom:11px;line-height:1.5;">Built by <strong style="color:var(--text)">Wassem</strong> — a solo developer. If this saves you time every day, a coffee means a lot!</div>
-      <a id="bmacLink" href="https://buymeacoffee.com/wassemtakashi" style="
-        display:inline-flex;align-items:center;gap:8px;
-        background:#FFDD00;color:#000;
-        font-family:'Inter',sans-serif;font-weight:700;font-size:13px;
-        padding:9px 20px;border-radius:8px;text-decoration:none;
-        transition:opacity 0.15s;
-      ">
-        <img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" style="width:18px;height:18px;" alt=""/>
+      <a href="https://buymeacoffee.com/wassemtakashi" class="bmac-btn">
+        <img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" style="width:16px;height:16px;" alt=""/>
         Buy me a coffee
       </a>
     </div>
-
-    <!-- GitHub -->
     <div style="text-align:center;font-size:11px;color:var(--muted);">
-      Found a bug or have a feature request?<br/>
-      <a id="feedbackLink" href="https://github.com/wassemwassem/tab-session-pro/issues" style="color:var(--accent);text-decoration:none;">Open an issue on GitHub ↗</a>
+      <a href="https://github.com/wassemwassem/tab-session-pro/issues" style="color:var(--accent);text-decoration:none;">Open an issue on GitHub ↗</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ New Folder Modal ═══ -->
+<div class="modal-overlay" id="newFolderModal">
+  <div class="modal">
+    <div class="modal-title">📁 New Folder</div>
+    <div class="modal-sub">Give your folder a name. You can drag folders to reorder them.</div>
+    <input class="folder-input" id="newFolderName" placeholder="e.g. Client A — United Motors" maxlength="60"/>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="cancelFolderBtn">Cancel</button>
+      <button class="btn btn-primary" id="confirmFolderBtn" style="width:auto;">Create Folder</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Update Session Modal ═══ -->
+<div class="modal-overlay" id="updateModal">
+  <div class="modal">
+    <div class="modal-title">🔄 Update Session</div>
+    <div class="modal-sub" id="updateModalSub">Re-save the current tabs back to this session?</div>
+    <div style="font-size:11px;color:var(--muted2);">
+      Add hours worked in this session:
+    </div>
+    <div class="hours-row">
+      <input class="hours-input" id="updateHoursInput" type="number" min="0" max="999" step="0.5" placeholder="0"/>
+      <span style="font-size:11px;color:var(--muted2);">hrs to add</span>
+      <div class="hours-preview" style="display:flex;">
+        New total: <strong id="updateTotalDisplay" style="margin-left:4px;color:var(--green);">—</strong>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="cancelUpdateBtn">Cancel</button>
+      <button class="btn btn-update" id="confirmUpdateBtn" style="width:auto;">✓ Update Session</button>
     </div>
   </div>
 </div>

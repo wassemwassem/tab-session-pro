@@ -18,3 +18,4 @@ Desktop.ini
 # Node (if you ever add a build step)
 node_modules/
 npm-debug.log*
+PUBLISH_GUIDE.md
