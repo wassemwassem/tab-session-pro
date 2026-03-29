@@ -7,7 +7,7 @@
 ### Save your Chrome tab groups. Restore them in one click.
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Available-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/ohgiphdbdbabhoembkclgbnbihlfeegd?utm_source=item-share-cb)
-[![Version](https://img.shields.io/badge/version-1.0.0-6c8aff?style=flat-square)](#)
+[![Version](https://img.shields.io/badge/version-4.1.0-6c8aff?style=flat-square)](#)
 [![License](https://img.shields.io/badge/license-MIT-34d399?style=flat-square)](LICENSE)
 [![Buy Me a Coffee](https://img.shields.io/badge/Support-Buy%20me%20a%20coffee-FFDD00?style=flat-square&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/wassemtakashi)
 
@@ -37,11 +37,17 @@ If you use **NetSuite, Salesforce, SAP, or any session-based web app**, you know
 
 - 🗂️ **Auto-detects tab groups** — reads Chrome group names and colors automatically
 - 🎨 **Preserves group structure** — tabs reopen in the same colored groups
-- 💾 **Multiple named sessions** — one per ticket, project, or client
-- ⌨️ **Keyboard shortcut** — `Alt+S` to quick-save without opening the popup
-- 🔒 **100% local** — no servers, no accounts, no tracking. Ever.
-- 🔍 **App filter** — optionally show only NetSuite tabs
-- 📦 **Lightweight** — no dependencies, pure JS
+- 💾 **Multiple named sessions** — folders, search, tags, and working hours per session
+- 🔍 **ERP / CRM filter** — focus saves on tabs for NetSuite, Salesforce, SAP, and more (optional)
+- ✨ **Smart naming & notes** — local suggestions from your tabs; no API keys or external AI
+- 🔐 **Private vault** — PIN-protected sessions (`Alt+P`)
+- 📦 **Backlog** — park older sessions out of the main list
+- 🔗 **Share & import** — `.tabsession` file or `TSP:` code; import from the Sessions toolbar
+- ⚡ **Sort tabs** — preview before reorder (`Alt+T`)
+- ☁️ **Chrome sync** — sessions follow your signed-in Chrome profile (same as bookmarks)
+- ⌨️ **Shortcuts** — `Alt+S` save · `Alt+U` update last session · `Alt+P` private vault · `Alt+T` sort (customize at `chrome://extensions/shortcuts`)
+- 🔒 **100% local logic** — no tracking; no background service worker for cloud AI
+- 📦 **Lightweight** — no npm dependencies, vanilla JS, Manifest V3
 
 ---
 
@@ -73,7 +79,7 @@ If you use **NetSuite, Salesforce, SAP, or any session-based web app**, you know
    ```
 2. Open Chrome → go to `chrome://extensions`
 3. Enable **Developer mode** (toggle, top-right)
-4. Click **Load unpacked** → select the `tab-session-pro` folder
+4. Click **Load unpacked** → select this folder (the one that contains `manifest.json`)
 5. Pin the 🗂️ icon to your toolbar
 
 ---
@@ -84,9 +90,9 @@ If you use **NetSuite, Salesforce, SAP, or any session-based web app**, you know
 |---|---|
 | `tabs` | Read tab URLs and titles to save your session |
 | `tabGroups` | Read and restore group names, colors, and collapsed state |
-| `storage` | Save your sessions locally on your device |
+| `storage` | Persist sessions; Chrome can sync them across devices when you are signed into Chrome |
 
-> No data is ever sent anywhere. Everything stays on your machine.
+> Session data is not sent to the developer’s servers. Smart naming and notes run entirely in the extension. Customize shortcuts at `chrome://extensions/shortcuts`.
 
 ---
 
@@ -95,6 +101,8 @@ If you use **NetSuite, Salesforce, SAP, or any session-based web app**, you know
 Vanilla JavaScript · Chrome Extensions Manifest V3 · Chrome `tabs` + `tabGroups` + `storage` APIs
 
 No build tools, no frameworks, no dependencies. Just open the folder and edit.
+
+Version history: [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
